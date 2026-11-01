@@ -1,0 +1,280 @@
+MySQL Shell 8.0.46
+
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases
+                               -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| taller2            |
+| tbd_exa1           |
+| tutorial           |
+| world              |
++--------------------+
+9 rows in set (0.0026 sec)
+ MySQL  localhost:3306 ssl  SQL > use taller2;
+Default schema set to `taller2`.
+Fetching global names, object names from `taller2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  taller2  SQL > show tables;
++--------------------+
+| Tables_in_taller2  |
++--------------------+
+| carrera            |
+| cliente            |
+| estudiant          |
+| estudiante         |
+| estudiantee        |
+| persona            |
+| persona_modificada |
+| producto           |
+| tablesa            |
+| tablesb            |
+| vehiculo           |
+| venta              |
+| venta_detalles     |
++--------------------+
+13 rows in set (0.0023 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from
+                                        -> venta a
+                                        -> inner join venta b
+                                        -> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from
+                                        -> venta a
+                                        -> inner join cliente b
+                                        -> on a.id_ciente=b.id_cliente;
+ERROR: 1054 (42S22): Unknown column 'a.id_ciente' in 'on clause'
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT *
+                                        -> FROM venta a
+                                        -> INNER JOIN cliente b
+                                        -> ON a.id_cliente = b.id_cliente;
++----------+------------+-------------+------------+--------+----------+------------+
+| id_venta | id_cliente | fecha_venta | id_cliente | nombre | apellido | fecha_nac  |
++----------+------------+-------------+------------+--------+----------+------------+
+|        2 |          1 | 2010-02-04  |          1 | juan   | perez    | 1979-01-02 |
+|        1 |          1 | 2000-02-03  |          1 | juan   | perez    | 1979-01-02 |
++----------+------------+-------------+------------+--------+----------+------------+
+2 rows in set (0.0275 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select a.id_cliente, b.nombre, b.apellido,
+                                        -> a.id_venta,a.fecha_venta
+                                        -> from venta a
+                                        -> inner join cliente b
+                                        -> on a.id_cliente = b.id_cliente;
++------------+--------+----------+----------+-------------+
+| id_cliente | nombre | apellido | id_venta | fecha_venta |
++------------+--------+----------+----------+-------------+
+|          1 | juan   | perez    |        1 | 2000-02-03  |
+|          1 | juan   | perez    |        2 | 2010-02-04  |
++------------+--------+----------+----------+-------------+
+2 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalle;
+ERROR: 1146 (42S02): Table 'taller2.venta_detalle' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalles;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        1 |           1 |        1 |
+|            5 |        2 |           3 |        4 |
+|           10 |        2 |           3 |       12 |
++--------------+----------+-------------+----------+
+3 rows in set (0.0196 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from producto;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playeras |   5000 | pieza  |
+|           3 | cuaderno |    200 | pieza  |
+|           4 | guantes  |   1000 | pieza  |
++-------------+----------+--------+--------+
+3 rows in set (0.0194 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into producto
+                                        -> value(5,"short",1000,"piezas");
+Query OK, 1 row affected (0.0122 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from producto;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playeras |   5000 | pieza  |
+|           3 | cuaderno |    200 | pieza  |
+|           4 | guantes  |   1000 | pieza  |
+|           5 | short    |   1000 | piezas |
++-------------+----------+--------+--------+
+4 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select b.id_producto,a.nombre,a.precio,b.cantidad
+                                        -> from producto a
+                                        -> inner join venta_detalles b
+                                        -> on a.id_producto = b.id_producto;
++-------------+----------+--------+----------+
+| id_producto | nombre   | precio | cantidad |
++-------------+----------+--------+----------+
+|           1 | playeras |   5000 |        1 |
+|           3 | cuaderno |    200 |        4 |
+|           3 | cuaderno |    200 |       12 |
++-------------+----------+--------+----------+
+3 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select b.id_producto,a.nombre,a.precio,b.cantidad, a.precio * b.cantidad from producto a inner join venta_detalles b on a.id_producto = b.id_producto;
++-------------+----------+--------+----------+-----------------------+
+| id_producto | nombre   | precio | cantidad | a.precio * b.cantidad |
++-------------+----------+--------+----------+-----------------------+
+|           1 | playeras |   5000 |        1 |                  5000 |
+|           3 | cuaderno |    200 |        4 |                   800 |
+|           3 | cuaderno |    200 |       12 |                  2400 |
++-------------+----------+--------+----------+-----------------------+
+3 rows in set (0.0041 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select b.id_producto,a.nombre,a.precio,b.cantidad, (a.precio * b.cantidad) as total  from producto a inner join venta_detalles b on a.id_producto = b.id_producto;
++-------------+----------+--------+----------+-------+
+| id_producto | nombre   | precio | cantidad | total |
++-------------+----------+--------+----------+-------+
+|           1 | playeras |   5000 |        1 |  5000 |
+|           3 | cuaderno |    200 |        4 |   800 |
+|           3 | cuaderno |    200 |       12 |  2400 |
++-------------+----------+--------+----------+-------+
+3 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select b.id_producto, a.nombre, a.precio,
+                                        -> b.cantidad,(a.precio*b.cantidad) as total
+                                        -> from producto a
+                                        -> left join venta_detalle  b
+                                        -> on a.id_producto = b.id_producto;
+ERROR: 1146 (42S02): Table 'taller2.venta_detalle' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT b.id_producto, a.nombre, a.precio, b.cantidad, (a.precio * b.cantidad) AS total
+                                        -> FROM producto a
+                                        -> LEFT JOIN detalle_venta b
+                                        -> ON a.id_producto = b.id_producto;
+ERROR: 1146 (42S02): Table 'taller2.detalle_venta' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > SHOW TABLES;
++--------------------+
+| Tables_in_taller2  |
++--------------------+
+| carrera            |
+| cliente            |
+| estudiant          |
+| estudiante         |
+| estudiantee        |
+| persona            |
+| persona_modificada |
+| producto           |
+| tablesa            |
+| tablesb            |
+| vehiculo           |
+| venta              |
+| venta_detalles     |
++--------------------+
+13 rows in set (0.0022 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT b.id_producto, a.nombre, a.precio, b.cantidad, (a.precio * b.cantidad) AS total
+                                        -> FROM producto a
+                                        -> LEFT JOIN venta_detalles b
+                                        -> ON a.id_producto = b.id_producto;
++-------------+----------+--------+----------+-------+
+| id_producto | nombre   | precio | cantidad | total |
++-------------+----------+--------+----------+-------+
+|           1 | playeras |   5000 |        1 |  5000 |
+|           3 | cuaderno |    200 |       12 |  2400 |
+|           3 | cuaderno |    200 |        4 |   800 |
+|        NULL | guantes  |   1000 |     NULL |  NULL |
+|        NULL | short    |   1000 |     NULL |  NULL |
++-------------+----------+--------+----------+-------+
+5 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > wherer b.id_productos is null;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wherer b.id_productos is null' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > where b.id_productos is null;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where b.id_productos is null' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT b.id_producto, a.nombre, a.precio, b.cantidad, (a.precio * b.cantidad) AS total
+                                        -> FROM producto a
+                                        -> LEFT JOIN venta_detalles b
+                                        -> ON a.id_producto = b.id_producto
+                                        -> WHERE b.id_producto IS NULL;
++-------------+---------+--------+----------+-------+
+| id_producto | nombre  | precio | cantidad | total |
++-------------+---------+--------+----------+-------+
+|        NULL | guantes |   1000 |     NULL |  NULL |
+|        NULL | short   |   1000 |     NULL |  NULL |
++-------------+---------+--------+----------+-------+
+2 rows in set (0.0024 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from cliente;
++------------+--------+----------+------------+
+| id_cliente | nombre | apellido | fecha_nac  |
++------------+--------+----------+------------+
+|          1 | juan   | perez    | 1979-01-02 |
+|          4 | angel  | maro     | 1912-02-01 |
+|          5 | pedro  | paramo   | 1979-05-02 |
++------------+--------+----------+------------+
+3 rows in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente
+                                        -> value(6,"pepe","paramo"1950-11-11");
+                                        "> ;
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente
+                                        ->                                         value(6,"pepe","paramo,"1950-11-11");
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente
+                                        -> value(6,"pepe","paramo,"1950-11-11");
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > desc ventas;
+ERROR: 1146 (42S02): Table 'taller2.ventas' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > desc venta;
++-------------+------+------+-----+---------+----------------+
+| Field       | Type | Null | Key | Default | Extra          |
++-------------+------+------+-----+---------+----------------+
+| id_venta    | int  | NO   | PRI | NULL    | auto_increment |
+| id_cliente  | int  | NO   | MUL | NULL    |                |
+| fecha_venta | date | YES  |     | NULL    |                |
++-------------+------+------+-----+---------+----------------+
+3 rows in set (0.0024 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select a. nombre, a.apellidos, b.id_venta from cliente a left join venta b
+                                        -> on a.id_cliente = b.id_cliente;
+ERROR: 1054 (42S22): Unknown column 'a.apellidos' in 'field list'
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT a.nombre, a.apellido, b.id_venta
+                                        -> FROM cliente a
+                                        -> LEFT JOIN venta b
+                                        -> ON a.id_cliente = b.id_cliente;
++--------+----------+----------+
+| nombre | apellido | id_venta |
++--------+----------+----------+
+| juan   | perez    |        1 |
+| juan   | perez    |        2 |
+| angel  | maro     |     NULL |
+| pedro  | paramo   |     NULL |
++--------+----------+----------+
+4 rows in set (0.0029 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select a.nombre, a.apellidos, d.nombre, c.cantidad, d.precio, (c.cantidad * d.precio) as total
+                                        -> from cliente a
+                                        -> left join venta b on a.id_cliente  = b.cliente
+                                        -> left join venta det c on b.id_venta = c.id_venta
+                                        -> left join producto d on d.id_producto = c_id_producto;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c on b.id_venta = c.id_venta
+left join producto d on d.id_producto = c_id_produc' at line 4
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT a.nombre, a.apellido, d.nombre AS producto, c.cantidad, d.precio, (c.cantidad * d.precio) AS total
+                                        -> FROM cliente a
+                                        -> LEFT JOIN venta b ON a.id_cliente = b.id_cliente
+                                        -> LEFT JOIN venta_detalles c ON b.id_venta = c.id_venta
+                                        -> LEFT JOIN producto d ON d.id_producto = c.id_producto;
++--------+----------+----------+----------+--------+-------+
+| nombre | apellido | producto | cantidad | precio | total |
++--------+----------+----------+----------+--------+-------+
+| juan   | perez    | playeras |        1 |   5000 |  5000 |
+| juan   | perez    | cuaderno |       12 |    200 |  2400 |
+| juan   | perez    | cuaderno |        4 |    200 |   800 |
+| angel  | maro     | NULL     |     NULL |   NULL |  NULL |
+| pedro  | paramo   | NULL     |     NULL |   NULL |  NULL |
++--------+----------+----------+----------+--------+-------+
+5 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > eva_5_joins
+                                        -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'eva_5_joins' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL >
