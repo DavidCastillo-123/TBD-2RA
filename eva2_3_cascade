@@ -1,0 +1,398 @@
+MySQL Shell 8.0.46
+
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql;
+Unknown command: '\sql;'
+ MySQL  JS > \sql;
+Unknown command: '\sql;'
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL >
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| taller2            |
+| tbd_exa1           |
+| world              |
++--------------------+
+8 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  SQL > use taller2;
+Default schema set to `taller2`.
+Fetching global names, object names from `taller2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta
+                                        -> drop contraint
+                                        -> :
+                                        -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':' at line 3
+ MySQL  localhost:3306 ssl  taller2  SQL > show create table
+                                        -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > show create table venta;
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                   |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| venta | CREATE TABLE `venta` (
+  `id_venta` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` int NOT NULL,
+  `fecha_venta` date DEFAULT NULL,
+  PRIMARY KEY (`id_venta`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0100 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta drop contraint `venta_ibfk_1` ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`venta_ibfk_1`' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta drop contraint venta_ibfk_1 ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'venta_ibfk_1' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta drop constraint venta_ibfk_1;
+Query OK, 0 rows affected (0.0512 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta add foreign key id_cliente references cliente(id:cliente)
+                                        -> on delete cacade
+                                        -> on update cascada;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references cliente(id:cliente)
+on delete cacade
+on update cascada' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta
+                                        -> add foreign key id_cliente
+                                        -> id_cliente references cliente(id:cliente)
+                                        -> on delete cacade
+                                        -> on update cascada;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_cliente references cliente(id:cliente)
+on delete cacade
+on update cascada' at line 3
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta add foreign key (id_cliente) id_cliente references cliente(id:cliente) on delete cacade on update cascada;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_cliente references cliente(id:cliente) on delete cacade on update cascada' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > alter table venta add foreign key(id_cliente) id_cliente references cliente(id:cliente) on delete cacade on update cascada;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_cliente references cliente(id:cliente) on delete cacade on update cascada' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > selectn* from cliente;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selectn* from cliente' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > select* from cliente;
++------------+--------+----------+------------+
+| id_cliente | nombre | apellido | fecha_nac  |
++------------+--------+----------+------------+
+|          1 | juan   | perez    | 1979-01-02 |
+|          2 | pedro  | paramo   | 1979-05-02 |
+|          3 | angel  | maro     | 1912-02-01 |
++------------+--------+----------+------------+
+3 rows in set (0.0066 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select* from ventas;
+ERROR: 1146 (42S02): Table 'taller2.ventas' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > select* from venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          1 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0038 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > ALTER TABLE venta
+                                        -> ADD FOREIGN KEY (id_cliente)
+                                        -> REFERENCES cliente(id_cliente)
+                                        -> ON DELETE CASCADE
+                                        -> ON UPDATE CASCADE;
+Query OK, 2 rows affected (0.0972 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > update cliente
+                                        -> set id_ cliente = 5 where id:cliente = 2;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cliente = 5 where id:cliente = 2' at line 2
+ MySQL  localhost:3306 ssl  taller2  SQL > update cliente  set id_ cliente = 5 where id:cliente = 2;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cliente = 5 where id:cliente = 2' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > UPDATE cliente
+                                        -> SET id_cliente = 5
+                                        -> WHERE id_cliente = 2;
+Query OK, 1 row affected (0.0062 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select* from ventas;
+ERROR: 1146 (42S02): Table 'taller2.ventas' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > select* from cliente;
++------------+--------+----------+------------+
+| id_cliente | nombre | apellido | fecha_nac  |
++------------+--------+----------+------------+
+|          1 | juan   | perez    | 1979-01-02 |
+|          3 | angel  | maro     | 1912-02-01 |
+|          5 | pedro  | paramo   | 1979-05-02 |
++------------+--------+----------+------------+
+3 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create tables producto(
+                                        -> id_producto int not null key auto increment,
+                                        -> nombre varchar(50) not null,
+                                        -> precio double not null,
+                                        -> unidad varchar(50) not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tables producto(
+id_producto int not null key auto increment,
+nombre varchar(50)' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE producto (
+                                        ->     id_producto INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        ->     nombre VARCHAR(50) NOT NULL,
+                                        ->     precio DOUBLE NOT NULL,
+                                        ->     unidad VARCHAR(50) NOT NULL
+                                        -> );
+Query OK, 0 rows affected (0.0238 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into producto(nombre,precio,unidad)
+                                        -> values("playeras",5000,"pieza"),
+                                        -> ("pantalon",2000,"pieza")
+                                        -> ,
+                                        -> ("cuaderno",200,"pieza"),
+                                        -> ("guantes",1000,("pieza")
+                                        -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 6
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO producto (nombre, precio, unidad) VALUES
+                                        -> ("playeras", 5000, "pieza"),
+                                        -> ("pantalon", 2000, "pieza"),
+                                        -> ("cuaderno", 200, "pieza"),
+                                        -> ("guantes", 1000, "pieza");
+Query OK, 4 rows affected (0.0086 sec)
+
+Records: 4  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * form producto;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'form producto' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from producto;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playeras |   5000 | pieza  |
+|           2 | pantalon |   2000 | pieza  |
+|           3 | cuaderno |    200 | pieza  |
+|           4 | guantes  |   1000 | pieza  |
++-------------+----------+--------+--------+
+4 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta_detalles(
+                                        -> id_venta_det int not null key auto_increment,
+                                        -> id_venta int  not null,
+                                        -> id_producto int not null,
+                                        -> cantidad int not nul,
+                                        -> foreign key(id_venta) references  venta(id_venta)
+                                        -> ,
+                                        -> on update cascade,
+                                        -> on delete cascade,
+                                        -> foreign key(id_producto),
+                                        -> references producto(id_producto),
+                                        -> on update cascade,
+                                        -> on delate cascade;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'nul,
+foreign key(id_venta) references  venta(id_venta)
+,
+on update cascade,
+on d' at line 5
+ MySQL  localhost:3306 ssl  taller2  SQL > desc producto;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id_producto | int         | NO   | PRI | NULL    | auto_increment |
+| nombre      | varchar(50) | NO   |     | NULL    |                |
+| precio      | double      | NO   |     | NULL    |                |
+| unidad      | varchar(50) | NO   |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0040 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > REATE TABLE venta_detalles (
+                                        ->     id_venta_det INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        ->     id_venta INT NOT NULL,
+                                        ->     id_producto INT NOT NULL,
+                                        ->     cantidad INT NOT NULL,
+                                        ->     FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON UPDATE CASCADE ON DELETE CASCADE,
+                                        ->     FOREIGN KEY (id_producto) REFERENCES producto(id_producto) ON UPDATE CASCADE ON DELETE CASCADE
+                                        -> );
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REATE TABLE venta_detalles (
+    id_venta_det INT NOT NULL AUTO_INCREMENT PRIMAR' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE venta_detalles (
+                                        ->     id_venta_det INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                        ->     id_venta INT NOT NULL,
+                                        ->     id_producto INT NOT NULL,
+                                        ->     cantidad INT NOT NULL,
+                                        ->     FOREIGN KEY (id_venta) REFERENCES venta(id_venta) ON UPDATE CASCADE ON DELETE CASCADE,
+                                        ->     FOREIGN KEY (id_producto) REFERENCES producto(id_producto) ON UPDATE CASCADE ON DELETE CASCADE
+                                        -> );
+Query OK, 0 rows affected (0.0672 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from detalles;
+ERROR: 1146 (42S02): Table 'taller2.detalles' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalles;
+Empty set (0.0035 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > desc venta_detalles;
++--------------+------+------+-----+---------+----------------+
+| Field        | Type | Null | Key | Default | Extra          |
++--------------+------+------+-----+---------+----------------+
+| id_venta_det | int  | NO   | PRI | NULL    | auto_increment |
+| id_venta     | int  | NO   |IIIIIIIIIIIIIINSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente, nombre) VALUES (2, 'Nombre del Cliente');v  | MUL | NULL  INSERT INTO venta (id_cl^Cnte, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente, nomb
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente, nom
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente, no
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente, n
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente,
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente,
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cliente
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_client
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_clien
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_clie
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_clicha_venta) VALUES (1,
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_cl
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_c
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id_
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (id
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (i
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente (
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cliente
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO client
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO clien
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO clie
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cli
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO cl
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO c
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INTO_ibfk_1` FOREIGN KEY (`id_cliente`) R
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT INT
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');INSERT IN
+ MySQL  localhost:3306 ssl  taller2  SQL >
+ MySQL  localhost:3306 ssl  taller2  SQL >
+ MySQL  localhost:3306 ssl  taller2  SQL > ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta (id_cliente, fecha_venta) VALUES (2, '2000-12-12');
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta`, CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  taller2  SQL > desc venta_detalles;
++--------------+------+------+-----+---------+----------------+
+| Field        | Type | Null | Key | Default | Extra          |
++--------------+------+------+-----+---------+----------------+
+| id_venta_det | int  | NO   | PRI | NULL    | auto_increment |
+| id_venta     | int  | NO   | MUL | NULL    |                |
+| id_producto  | int  | NO   | MUL | NULL    |                |
+| cantidad     | int  | NO   |     | NULL    |                |
++--------------+------+------+-----+---------+----------------+
+4 rows in set (0.0027 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta_detalle( id_venta,id_producto,cantidad)
+                                        -> values
+                                        -> (1,1,1),
+                                        -> (2,3,4),
+                                        -> (3,34,3);
+ERROR: 1146 (42S02): Table 'taller2.venta_detalle' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta_detalles( id_venta,id_producto,cantidad) values (1,1,1), (2,3,4), (3,34,3);
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta_detalles`, CONSTRAINT `venta_detalles_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT * FROM venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          1 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > SELECT * FROM producto;
++-------------+----------+--------+--------+
+| id_producto | nombre   | precio | unidad |
++-------------+----------+--------+--------+
+|           1 | playeras |   5000 | pieza  |
+|           2 | pantalon |   2000 | pieza  |
+|           3 | cuaderno |    200 | pieza  |
+|           4 | guantes  |   1000 | pieza  |
++-------------+----------+--------+--------+
+4 rows in set (0.0034 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta_detalles (id_venta, id_producto, cantidad)
+                                        -> VALUES
+                                        -> (1, 1, 1),
+                                        -> (2, 3, 4);
+Query OK, 2 rows affected (0.0067 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta_detalles (id_venta, id_producto, cantidad)  VALUES  (4, 3, 12), (3,23, 23);
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta_detalles`, CONSTRAINT `venta_detalles_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta_detalles (id_venta, id_producto, cantidad)  VALUES  (4, 1, 12), (3,23, 23);
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta_detalles`, CONSTRAINT `venta_detalles_ibfk_1` FOREIGN KEY (`id_venta`) REFERENCES `venta` (`id_venta`) ON DELETE CASCADE ON UPDATE CASCADE)
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO venta_detalles (id_venta, id_producto, cantidad)
+                                        -> VALUES
+                                        -> (2, 3, 12),
+                                        -> (1, 2, 23);
+Query OK, 2 rows affected (0.0081 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalles;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        1 |           1 |        1 |
+|            5 |        2 |           3 |        4 |
+|           10 |        2 |           3 |       12 |
+|           11 |        1 |           2 |       23 |
++--------------+----------+-------------+----------+
+4 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > delete from cliente
+                                        -> where id_cliente^C
+ MySQL  localhost:3306 ssl  taller2  SQL > select from * venta;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from * venta' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from  venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          1 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > up date cliente set id_cliente = 2
+                                        -> where id_cliente = 3;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'up date cliente set id_cliente = 2
+where id_cliente = 3' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > update cliente set id_cliente = 2 where id_cliente = 3;
+Query OK, 1 row affected (0.0087 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from  venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          1 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > update cliente set id_cliente = 4 where id_cliente = ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > update cliente set id_cliente = 4 where id_cliente = 2;
+Query OK, 1 row affected (0.0060 sec)
+
+Rows matched: 1  Changed: 1  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from  venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          1 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalles;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        1 |           1 |        1 |
+|            5 |        2 |           3 |        4 |
+|           10 |        2 |           3 |       12 |
+|           11 |        1 |           2 |       23 |
++--------------+----------+-------------+----------+
+4 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > delete from producto
+                                        -> where nombre = "pantalon";
+Query OK, 1 row affected (0.0075 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta_detalles;
++--------------+----------+-------------+----------+
+| id_venta_det | id_venta | id_producto | cantidad |
++--------------+----------+-------------+----------+
+|            4 |        1 |           1 |        1 |
+|            5 |        2 |           3 |        4 |
+|           10 |        2 |           3 |       12 |
++--------------+----------+-------------+----------+
+3 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > eva2_3_cascade
