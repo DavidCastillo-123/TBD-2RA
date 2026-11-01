@@ -1,0 +1,224 @@
+MySQL Shell 8.0.46
+
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \SQL
+Unknown command: '\SQL'
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show tables;
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > show tablesdatabases;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tablesdatabases' at line 1
+ MySQL  localhost:3306 ssl  SQL > show tables;
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| taller2            |
+| tbd_exa1           |
+| world              |
++--------------------+
+8 rows in set (0.0082 sec)
+ MySQL  localhost:3306 ssl  SQL > use taller2;
+Default schema set to `taller2`.
+Fetching global names, object names from `taller2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  taller2  SQL > show tables;
++--------------------+
+| Tables_in_taller2  |
++--------------------+
+| estudiante         |
+| persona            |
+| persona_modificada |
+| tablesa            |
+| tablesb            |
+| vehiculo           |
++--------------------+
+6 rows in set (0.0042 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from tablesa;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0222 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(id_cliente int not null key auto_increment,
+                                        -> nombre varchar(50) nott null,
+                                        -> apellido varchar(50) not null,
+                                        -> fecha_nac date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'nott null,
+apellido varchar(50) not null,
+fecha_nac date)' at line 2
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) not null, apellido varchar(50) not null, fecha_nac date);
+Query OK, 0 rows affected (0.0599 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac)
+                                        -> values("juan","perez","05-05-1979),("pedro","paramo","02-01-2002"),"angel","maro","01-03-2000");
+                                        ">
+                                        "> ;
+                                        "> c
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) not null, apellido varchar(50) not null, fecha_nac date);
+ERROR: 1050 (42S01): Table 'cliente' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac)
+                                        ->                                         -> values("juan","perez","05-05-1979),("pedro","paramo","02-01-2002"),"angel","maro","01-03-2000");
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac)
+                                        ->                                         -> values("juan","perez","05-05-1979),("pedro","paramo","02-01-2002"),"angel","maro","01-03-2000")
+                                        -> ;
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac)
+                                        ->                                         -> values("juan","perez","05-05-1979),("pedro","paramo","02-01-2002"),("angel","maro","01-03-2000");
+                                        "> insert into cliente(nombre, apellido, fecha_nac)
+                                        ">                                         ->                                         -> values("juan","perez","05-05-1979"),("pedro","paramo","02-01-2002"),("angel","maro","01-03-2000");
+                                        "> insert into cliente(nombre, apellido, fecha_nac)
+                                        "> values("juan","perez","05-05-1979"),("pedro","paramo","02-01-2002"),("angel","maro","01-03-2000");
+                                        "> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac)
+                                        -> values("juan","perez","05-05-1979"),("pedro","paramo","02-01-2002"),("angel","maro","01-03-2000");
+ERROR: 1292 (22007): Incorrect date value: '05-05-1979' for column 'fecha_nac' at row 1
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac) values("juan","perez","05-05-1979"),("pedro","paramo","02-01-2002"),("angel","maro","04-03-2000");
+ERROR: 1292 (22007): Incorrect date value: '05-05-1979' for column 'fecha_nac' at row 1
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into cliente(nombre, apellido, fecha_nac) values("juan","perez","1979-01-02"),("pedro","paramo","1979-05-02"),("angel","maro","1912-02-01");
+Query OK, 3 rows affected (0.0128 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta(
+                                        -> id_venta int not null key auto_increment,
+                                        -> id_cliente int not null,
+                                        -> fecha_venta date);
+Query OK, 0 rows affected (0.0217 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_fecha_venta)
+                                        -> value("1","2000-02-03"),("2","2010-02-04");
+ERROR: 1054 (42S22): Unknown column 'id_fecha_venta' in 'field list'
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,fecha_venta) value("1","2000-02-03"),("2","2010-02-04");
+ERROR: 1364 (HY000): Field 'id_cliente' doesn't have a default value
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("1","1","2000-02-03"),("2","2","2010-02-04");
+Query OK, 2 rows affected (0.0059 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from cliente;
++------------+--------+----------+------------+
+| id_cliente | nombre | apellido | fecha_nac  |
++------------+--------+----------+------------+
+|          1 | juan   | perez    | 1979-01-02 |
+|          2 | pedro  | paramo   | 1979-05-02 |
+|          3 | angel  | maro     | 1912-02-01 |
++------------+--------+----------+------------+
+3 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          2 | 2010-02-04  |
++----------+------------+-------------+
+2 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("4","4","2000-02-03"),("3","2","2010-02-04");
+Query OK, 2 rows affected (0.0057 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta;
++----------+------------+-------------+
+| id_venta | id_cliente | fecha_venta |
++----------+------------+-------------+
+|        1 |          1 | 2000-02-03  |
+|        2 |          2 | 2010-02-04  |
+|        3 |          2 | 2010-02-04  |
+|        4 |          4 | 2000-02-03  |
++----------+------------+-------------+
+4 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > drop table venta;
+Query OK, 0 rows affected (0.0196 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente), fecha_venta date)' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente), fecha_venta date)' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) nott null, apellido varchar(50) not null, fecha_nac date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'nott null, apellido varchar(50) not null, fecha_nac date)' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) nott null, apellido varchar(50) not null, fecha_nac date); create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) not null, apellido varchar(50) not null, fecha_nac date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'nott null, apellido varchar(50) not null, fecha_nac date)' at line 1
+ERROR: 1050 (42S01): Table 'cliente' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > reate table cliente(id_cliente int not null key auto_increment, nombre varchar(50) not null, apellido varchar(50) not null, fecha_nac date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reate table cliente(id_cliente int not null key auto_increment, nombre varchar(5' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from cliente;
++------------+--------+----------+------------+
+| id_cliente | nombre | apellido | fecha_nac  |
++------------+--------+----------+------------+
+|          1 | juan   | perez    | 1979-01-02 |
+|          2 | pedro  | paramo   | 1979-05-02 |
+|          3 | angel  | maro     | 1912-02-01 |
++------------+--------+----------+------------+
+3 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente), fecha_venta date)' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);create table venta(
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente), fecha_venta date)' at line 1
+                                        ->                                         -> id_venta int not null key auto_increment,
+                                        ->                                         -> id_cliente int not null,
+                                        ->  ^C
+ MySQL  localhost:3306 ssl  taller2  SQL >
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta(id_venta int not null key auto_increment,
+                                        -> id_venta int not null key auto_increment,^C
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta(
+                                        -> id_venta int not null key auto_increment,
+                                        -> id_cliente int not null reference cliente(id_cliente),
+                                        -> fecha_venta date);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente),
+fecha_venta date)' at line 3
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);                                   reate table cliente(id_cliente int not null key auto_increment, nombre varchar(50) not null, apellido varchar(50) not null, fecha_nac date);                              create table cliente(id_cliente int not null key auto_increment, nombre varchar(50) nott null, apellido varchar(50) not null, fecha_nac date);                            create table venta( id_venta int not null key auto_increment, id_cliente int not null reference cliente(id_cliente), fecha_venta date);                                   select * from venta;
+ERROR: 1146 (42S02): Table 'taller2.venta' doesn't exist
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente,ferences cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente,references cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente,refere^Ces cliente(id_cliente));
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente),references cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',references cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente),references cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',references cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente),reference cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',reference cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente),reference cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',reference cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > create table venta( id_venta int not null key auto_increment, id_cliente int not null, fecha_venta date, foreign key(id_cliente) reference cliente(id_cliente));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference cliente(id_cliente))' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE venta (
+                                        ->     id_venta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                                        ->     id_cliente INT NOT NULL,
+                                        ->     fecha_venta DATE,
+                                        ->     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+                                        -> );
+Query OK, 0 rows affected (0.0552 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > select * from venta;
+Empty set (0.0026 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("4","4","2000-02-03"),("3","2","2010-02-04");
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta`, CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("4","4","2000-02-03"),("3","2","2010-02-04");
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta`, CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("4","4","2000-02-03"),("3","2","2010-02-04");
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`taller2`.`venta`, CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`))
+ MySQL  localhost:3306 ssl  taller2  SQL > eva2_2_integridad_referencial
+                                        -> ^C
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into venta(id_venta,id_cliente,fecha_venta) value("1","1","2000-02-03"),("2","1","2010-02-04");
+Query OK, 2 rows affected (0.0053 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL >
