@@ -1,0 +1,143 @@
+MySQL Shell 8.0.46
+
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 9
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| taller2            |
+| tbd_exa1           |
+| world              |
++--------------------+
+8 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  SQL > use taller2;
+Default schema set to `taller2`.
+Fetching global names, object names from `taller2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  taller2  SQL > show create table venta;
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table | Create Table                                                                                                                                                                                                                                                                                                                                                                                                       |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| venta | CREATE TABLE `venta` (
+  `id_venta` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` int NOT NULL,
+  `fecha_venta` date DEFAULT NULL,
+  PRIMARY KEY (`id_venta`),
+  KEY `id_cliente` (`id_cliente`),
+  CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table carrera(
+                                        -> id_carrera int not null key auto_increment,
+                                        -> nombre varchar(50) not null);
+Query OK, 0 rows affected (0.0216 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > create table estudiante(
+                                        -> id_estudiante not null key auto_increment,
+                                        -> nombre varchar(50) not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null key auto_increment,
+nombre varchar(50) not null)' at line 2
+ MySQL  localhost:3306 ssl  taller2  SQL > create table estudiante( id_estudiante int not null key auto_increment, nombre varchar(50) not null);
+ERROR: 1050 (42S01): Table 'estudiante' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > create table estudiantee( id_estudiante int not null key auto_increment, nombre varchar(50) not null);
+Query OK, 0 rows affected (0.0170 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE estudiante (
+                                        ->     id_estudiante INT NOT NULL AUTO_INCREMENT,
+                                        ->     nombre VARCHAR(50) NOT NULL,
+                                        ->     PRIMARY KEY (id_estudiante)
+                                        -> );
+ERROR: 1050 (42S01): Table 'estudiante' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE estudiant (     id_estudiante INT NOT NULL AUTO_INCREMENT,     nombre VARCHAR(50) NOT NULL,     PRIMARY KEY (id_estudiante) );
+Query OK, 0 rows affected (0.0136 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > desc carrera;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_carrera | int         | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.0034 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > desc estudiant;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| id_estudiante | int         | NO   | PRI | NULL    | auto_increment |
+| nombre        | varchar(50) | NO   |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.0034 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into carrera(id_carrera,nombre)
+                                        -> value(1,"informatica"),
+                                        -> (2,"arquitectura"),
+                                        -> (3,"sistemas")
+                                        -> ;
+Query OK, 3 rows affected (0.0054 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > insert into estudiant(id_estudiante,nombre)
+                                        -> value(1,"perez"),
+                                        -> (2,"angel"),
+                                        -> (3,"david");
+Query OK, 3 rows affected (0.0070 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  taller2  SQL > ALTER TABLE carrera ADD ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE carrera;
+ERROR: 1050 (42S01): Table 'carrera' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > create table comidas(
+                                        -> id_comida varchar(50) not null key auto_increment,
+                                        -> nombre vacrhar(50) not nul^C
+ MySQL  localhost:3306 ssl  taller2  SQL > create table cliente(
+                                        -> id_comidafav varchar(50) key auto_increment,
+
+                                        -> nombre varchar(50) not null;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE cliente (
+                                        ->     id_cliente INT NOT NULL AUTO_INCREMENT,
+                                        ->     nombre VARCHAR(50) NOT NULL,
+                                        ->     PRIMARY KEY (id_cliente)
+                                        -> );
+ERROR: 1050 (42S01): Table 'cliente' already exists
+ MySQL  localhost:3306 ssl  taller2  SQL > delete table cliente;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table cliente' at line 1
+ MySQL  localhost:3306 ssl  taller2  SQL > CREATE TABLE client (     id_cliente INT NOT NULL AUTO_INCREMENT,     nombre VARCHAR(50) NOT NULL,     PRIMARY KEY (id_cliente) );
+Query OK, 0 rows affected (0.0399 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > desc client;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_cliente | int         | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+2 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO cliente (nombre, comida_fav) VALUES
+                                        -> ('Sofía Martínez', 'Pizza'),
+                                        -> ('Luis Ramírez', 'Tacos'),
+                                        -> ('Valentina Rojas', 'Hamburguesa');
+ERROR: 1054 (42S22): Unknown column 'comida_fav' in 'field list'
+ MySQL  localhost:3306 ssl  taller2  SQL > INSERT INTO cliente (nombre, id_comidafav) VALUES  ('Sofía Martínez', 'Pizza'), ('Luis Ramírez', 'Tacos'), ('Valentina Rojas', 'Hamburguesa');
+ERROR: 1054 (42S22): Unknown column 'id_comidafav' in 'field list'
+ MySQL  localhost:3306 ssl  taller2  SQL > DROP TABLE client;
+Query OK, 0 rows affected (0.0161 sec)
+ MySQL  localhost:3306 ssl  taller2  SQL > DROP TABLE client;
+ERROR: 1051 (42S02): Unknown table 'taller2.client'
+ MySQL  localhost:3306 ssl  taller2  SQL > DROP TABLE cliente;
+ERROR: 3730 (HY000): Cannot drop table 'cliente' referenced by a foreign key constraint 'venta_ibfk_1' on table 'venta'.
+ MySQL  localhost:3306 ssl  taller2  SQL > eva2_4SET_NULL
+
